@@ -34,14 +34,14 @@ public class HerniPlan {
      */
     private void zalozProstoryHry() {
         // vytvářejí se jednotlivé prostory
-        Prostor školka = new Prostor("školka","školka, kde sa hrajú a učia kachničky");
-        Prostor jazero = new Prostor("jazero", "jazero, kde býva kachnička s maminkou");
-        Prostor dedina = new Prostor("dedina","centrum kachniček, kde ma kanceláriu starostka");
-        Prostor lúka = new Prostor("lúka","lúka s truhlou");
-        Prostor brána = new Prostor("brána","zamknutá brána");
-        Prostor chalupa =new Prostor("chalupa","chalupa, kde býva obor");
-        Prostor les =new Prostor("les","les, kde môžeš stretnúť poľovníka");
-        Prostor vlčieDoupě =new Prostor("vlčie_doupě","doupě, kde býva vlk");
+        Prostor školka = new Prostor("školka","školka, kde sa hrajú a učia kachničky",110,50);
+        Prostor jazero = new Prostor("jazero", "jazero, kde býva kachnička s maminkou",20,50);
+        Prostor dedina = new Prostor("dedina","centrum kachniček, kde ma kanceláriu starostka",38,110);
+        Prostor lúka = new Prostor("lúka","lúka s truhlou",40,78);
+        Prostor brána = new Prostor("brána","zamknutá brána",42,69);
+        Prostor chalupa =new Prostor("chalupa","chalupa, kde býva obor",41,180);
+        Prostor les =new Prostor("les","les, kde môžeš stretnúť poľovníka",43,150);
+        Prostor vlčieDoupě =new Prostor("vlčie_doupě","doupě, kde býva vlk",50,100);
         
         
         // přiřazují se průchody mezi prostory (sousedící prostory)

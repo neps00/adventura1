@@ -3,19 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package adventura1;
+package utils;
 
 /**
  *
  * @author neps00
  */
-public class Adventura1 {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
+public interface Observer {
+    
+    public void update();
     
 }
