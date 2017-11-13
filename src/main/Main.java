@@ -5,6 +5,9 @@
  */
 package main;
 
+import GUI.Mapa;
+import GUI.MenuLista;
+import GUI.SeznamObrazku;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,9 +19,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -34,11 +40,29 @@ public class Main extends Application {
     //private Object ZadejPrikazTextArea;
     private TextArea centralText;
     private IHra hra;
+    
+    public void setHra(IHra hra) {
+        this.hra = hra;
+    }
+    
+    
     private TextField zadejPrikazTextField;
+    private Mapa mapa;
+    private MenuLista menuLista;
+    private SeznamObrazku seznamObrazku;
+    private Stage stage;
+    
+    
 
     @Override
     public void start(Stage primaryStage) {
-        IHra hra = new Hra();
+        stage = primaryStage;
+             
+        hra = new Hra();
+        mapa = new Mapa(hra);
+        menuLista = new MenuLista(hra, this);
+        seznamObrazku = new SeznamObrazku(hra);
+       
         BorderPane borderPane = new BorderPane();
         
         
@@ -70,19 +94,23 @@ public class Main extends Application {
                 }    
             }
         });
-        FlowPane obrazekFlowPane = new FlowPane ();
-        obrazekFlowPane.setPrefSize(200,200);
-        ImageView obrazekImageView = new ImageView (new Image(Main.class.getResourceAsStream("/zdroje/mapa.png"),300,300,false,true));
-        obrazekFlowPane.setAlignment(Pos.CENTER);
-        obrazekFlowPane.getChildren().add(obrazekImageView);
+      
+        // FlowPane obrazekFlowPane = new FlowPane ();
+       // obrazekFlowPane.setPrefSize(200,200);
+       // ImageView obrazekImageView = new ImageView (new Image(Main.class.getResourceAsStream("/zdroje/mapa.png"),300,300,false,true));
+       // Circle tecka = new Circle(10, Paint.valueOf("red"));
+        //obrazekFlowPane.setAlignment(Pos.CENTER);
+        //obrazekFlowPane.getChildren().add(obrazekImageView);
         
         
         FlowPane dolniLista = new FlowPane();
         dolniLista.setAlignment(Pos.CENTER);
         dolniLista.getChildren().addAll(zadejPrikazLabel, zadejPrikazTextField);
         
-        borderPane.setLeft(obrazekFlowPane);
+        borderPane.setLeft(mapa);
+        borderPane.setRight(seznamObrazku); 
         borderPane.setBottom(dolniLista);
+        borderPane.setTop(menuLista);
         
         Scene scene = new Scene(borderPane, 750, 450);
 
@@ -93,6 +121,23 @@ public class Main extends Application {
         zadejPrikazTextField.requestFocus();
     }
 
+   
+    public TextArea getCentralText() {
+        return centralText;
+    }
+
+    public Mapa getMapa() {
+        return mapa;
+    }
+    
+    public SeznamObrazku getSeznamObrazku() {
+        return seznamObrazku;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+    //je to dobre ??? get nad
     /**
      * @param args the command line arguments
      */

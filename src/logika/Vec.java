@@ -19,6 +19,7 @@ public class Vec
     private boolean prenositelnost;
     private boolean prozkoumana= false;
     private Map<String,Vec> seznamVeci;
+    private String soubor;
    
     //== Konstruktory a tovární metody =============================================
 
@@ -26,10 +27,11 @@ public class Vec
      *  Konstruktor triedy vec 
      *  -jej nazov a ci je prenositelna
      */
-    public Vec(String nazev, boolean prenositelnost)
+    public Vec(String nazev, boolean prenositelnost, String soubor)
     {this.nazev=nazev;
         this.prenositelnost=prenositelnost;
      seznamVeci = new HashMap<String,Vec>();
+     this.soubor = soubor;
      
 
     }

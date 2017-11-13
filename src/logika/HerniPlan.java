@@ -1,5 +1,10 @@
 package logika;
 
+import java.util.ArrayList;
+import java.util.List;
+import utils.Observer;
+import utils.Subject;
+
 
 /**
  *  Class HerniPlan - třída představující mapu a stav adventury.
@@ -14,10 +19,12 @@ package logika;
  * @version BlueJ 3.1.0, JDK 8
  * Dátum poslednej zmeny: 22.5.2016 
  */
-public class HerniPlan {
+public class HerniPlan implements Subject {
     private final static String VITEZNY = "vlčie doupě"; //dopisane, aby sme sa nepomylili, tak sme vytvorili konstantu
     private Prostor aktualniProstor;
     private Batoh batoh;
+    
+    private List<Observer> listObserveru = new ArrayList<Observer>();
     
      /**
      *  Konstruktor který vytváří jednotlivé prostory a propojuje je pomocí východů.
@@ -61,7 +68,7 @@ public class HerniPlan {
         
         brána.setZamknout(true);
         les.setZamknout(true);
-        Vec klic=new Vec("klic",true);
+        Vec klic=new Vec("klic",true,"/zdroje/klic.png");
         brána.nastavKlic(klic);
         
         
@@ -75,12 +82,12 @@ public class HerniPlan {
         
         
         
-        Vec truhla=new Vec ("truhla", false);
-        Vec strom=new Vec("strom", false);
-        Vec kvety=new Vec("kvety", true);
-        Vec krabica= new Vec ("krabica", true);
-        Vec fotka=new Vec("fotka",true);
-        Vec jablko=new Vec("jablko",true);
+        Vec truhla=new Vec ("truhla", false,"/zdroje/truhla.png");
+        Vec strom=new Vec("strom", false,"/zdroje/strom.png");
+        Vec kvety=new Vec("kvety", true,"/zdroje/kvety.png");
+        Vec krabica= new Vec ("krabica", true,"/zdroje/krabica.png");
+        Vec fotka=new Vec("fotka",true,"/zdroje/fotka.png");
+        Vec jablko=new Vec("jablko",true,"/zdroje/jablko.png");
         
         lúka.vlozVec(truhla);
         lúka.vlozVec(strom);
@@ -111,6 +118,7 @@ public class HerniPlan {
      */
     public void setAktualniProstor(Prostor prostor) {
        aktualniProstor = prostor;
+       notifyObservers();
        
     }
     /**
@@ -127,4 +135,22 @@ public class HerniPlan {
     public Batoh getBatoh() {
         return batoh;
     }  
+
+    @Override
+    public void registerObserver(Observer observer) {
+        listObserveru.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        listObserveru.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer listObserveruItem : listObserveru) {
+            listObserveruItem.update();
+            
+        }
+    }
 }
