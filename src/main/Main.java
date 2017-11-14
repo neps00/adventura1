@@ -49,7 +49,7 @@ public class Main extends Application {
     private TextField zadejPrikazTextField;
     private Mapa mapa;
     private MenuLista menuLista;
-    private SeznamObrazku seznamObrazku;
+   // private SeznamObrazku seznamObrazku;
     private Stage stage;
     
     
@@ -61,7 +61,7 @@ public class Main extends Application {
         hra = new Hra();
         mapa = new Mapa(hra);
         menuLista = new MenuLista(hra, this);
-        seznamObrazku = new SeznamObrazku(hra);
+       // seznamObrazku = new SeznamObrazku(hra);
        
         BorderPane borderPane = new BorderPane();
         
@@ -108,7 +108,7 @@ public class Main extends Application {
         dolniLista.getChildren().addAll(zadejPrikazLabel, zadejPrikazTextField);
         
         borderPane.setLeft(mapa);
-        borderPane.setRight(seznamObrazku); 
+        //borderPane.setRight(seznamObrazku); 
         borderPane.setBottom(dolniLista);
         borderPane.setTop(menuLista);
         
@@ -130,10 +130,7 @@ public class Main extends Application {
         return mapa;
     }
     
-    public SeznamObrazku getSeznamObrazku() {
-        return seznamObrazku;
-    }
-
+   
     public Stage getStage() {
         return stage;
     }

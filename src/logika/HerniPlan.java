@@ -68,7 +68,7 @@ public class HerniPlan implements Subject {
         
         brána.setZamknout(true);
         les.setZamknout(true);
-        Vec klic=new Vec("klic",true,"/zdroje/klic.png");
+        Vec klic=new Vec("klic",true,"/zdroje/.png");
         brána.nastavKlic(klic);
         
         

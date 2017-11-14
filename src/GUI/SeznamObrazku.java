@@ -5,12 +5,15 @@
  */
 package GUI;
 
-import java.awt.GridLayout;
-import javax.swing.BorderFactory;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.TilePane;
+import logika.Batoh;
+import logika.HerniPlan;
 import utils.Observer;
 import logika.IHra;
-import logika.Batoh;
+
 
 /**
  *
@@ -19,12 +22,19 @@ import logika.Batoh;
 public class SeznamObrazku implements Observer {
 
    private IHra hra;
-   private JPanel obsahBatohu;
-   private JPanel panelSObrazkem;
+   //private ImageView obsahBatohu;
+   //private TilePane panelSObrazkem;
+   private TilePane seznamObrazku;
+   private Batoh batoh;
+   private HerniPlan herniPlan;
    
    public SeznamObrazku(IHra hra) {
      this.hra = hra;   
+     this.batoh=batoh;
+     this.herniPlan = herniPlan;
+     
      hra.getHerniPlan().registerObserver(this);
+     //herniPlan.getBatoh().registerObserver(this);
      init();
     }
    
@@ -36,12 +46,15 @@ public class SeznamObrazku implements Observer {
     } 
    
    public void init(){
-              
-     // obsahBatohu= new JPanel (new GridLayout (2,11));
-     // panelSObrazkem.add(obsahBatohu);
-    //  obsahBatohu.setBorder(BorderFactory.createTitledBorder("Obsah batohu"));
-      
-      
+       
+    TilePane seznamObrazku = new TilePane();
+    seznamObrazku.setHgap(8);
+    seznamObrazku.setPrefColumns(4);
+    for (int i = 0; i < 20; i++) {
+        seznamObrazku.getChildren().add(new ImageView(...));
+        
+    }
+    
         
     }
    
@@ -49,8 +62,9 @@ public class SeznamObrazku implements Observer {
     
     @Override
     public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
+
     
     
 }

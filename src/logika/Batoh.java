@@ -24,6 +24,7 @@ public class Batoh
      */
     private Map<String, Vec>seznamVeci;
     private static final int MAXIMALNI_POCET=3;
+   
     //== Konstruktory a tovární metody =============================================
 
     /***************************************************************************
@@ -99,6 +100,7 @@ public class Batoh
 
     //== Nesoukromé metody (instancí i třídy) ======================================
 
+  
 
     //== Soukromé metody (instancí i třídy) ========================================
 
