@@ -5,13 +5,12 @@ package logika;
 
 
 /*******************************************************************************
- * Instance třídy PrikazOdemkni představují ...
+ * Instance třídy PrikazOdemkni umožňuje odomykání zamčených prostoru. 
  *Príkaz odemkni bude odomykať zamknuté miestnosti, ak máš kľúč.
  *
  * @author    Simona Nepšinská
- *             pro školní rok 2015/2016 LS - cvičenie Štvrtok 11:00
- * * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *             pro školní rok 2017/2018 - cvičení UT 9:15
+ * *
  */
 public class PrikazOdemkni implements IPrikaz
 {
@@ -23,7 +22,7 @@ public class PrikazOdemkni implements IPrikaz
     //== Konstruktory a tovární metody =============================================
 
     /***************************************************************************
-     *  Konstruktor ....
+     *  Konstruktor pro třídu PrikazOdemkni
      *  @param plan herní plán, je potřeba zjistit, zda jsem v místnosti
     *                    vedle místnosti, která se má odemknout
      */
@@ -58,18 +57,14 @@ public class PrikazOdemkni implements IPrikaz
             else{
                 if(plan.getBatoh().obsahujeVec("klic")==true){
                     sousedniProstor.setZamknout(false);
-                    return "Podarilo sa ti otvoriť dvere do miestnosti"+ sousedniProstor.getNazev() + ".";
+                    return "Podarilo sa ti otvoriť dvere do miestnosti " + sousedniProstor.getNazev() + ".";
                 
                 }
                 else{
                 return "Nemáš kľúč v batohu, skús ho nájsť.";
                 }
             }
-            
-       
-        
-        
-               
+                   
     }
     
     
@@ -81,9 +76,5 @@ public class PrikazOdemkni implements IPrikaz
     public String getNazev(){
         return NAZEV;
     }
-    //== Nesoukromé metody (instancí i třídy) ======================================
-
-
-    //== Soukromé metody (instancí i třídy) ========================================
 
 }

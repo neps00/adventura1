@@ -3,11 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package main;
 
 import GUI.Mapa;
 import GUI.MenuLista;
+import GUI.PanelVeci;
 import GUI.SeznamObrazku;
+import GUI.PanelVychodu;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,53 +34,71 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logika.*;
 import uiText.TextoveRozhrani;
+import javafx.scene.input.MouseEvent;
 
 /**
- *
- * @author xzenj02
+ *@author    Simona Nepšinská
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
  */
-public class Main extends Application {
-    //private Object ZadejPrikazTextArea;
+public class Main extends Application{
+    
     private TextArea centralText;
     private IHra hra;
-    
-    public void setHra(IHra hra) {
-        this.hra = hra;
-    }
-    
     
     private TextField zadejPrikazTextField;
     private Mapa mapa;
     private MenuLista menuLista;
-   // private SeznamObrazku seznamObrazku;
     private Stage stage;
     
+    private SeznamObrazku seznamObrazku;
+    private PanelVychodu panelVychodu;
+    private PanelVeci panelVeci;
     
+ /**
+ * Metoda pro nastavení hry.
+ * 
+ */
+      public void setHra(IHra hra) {
+        this.hra = hra;
+    }
+    
+ /**
+ * Metoda vytváří mapu,menu,hru a stage. Vytváří textové pole, kde se vypisuje úvodní text hry, 
+ * label na zadávání příkazu.
+ */   
 
     @Override
     public void start(Stage primaryStage) {
-        stage = primaryStage;
+        this.stage = primaryStage;
              
         hra = new Hra();
         mapa = new Mapa(hra);
         menuLista = new MenuLista(hra, this);
-       // seznamObrazku = new SeznamObrazku(hra);
-       
+        //Hlavný borderPane      
         BorderPane borderPane = new BorderPane();
-        
-        
-        TextArea centralText = new TextArea();
+        // Borderpane pro východy a věci v místnosti
+        BorderPane borderPane2 = new BorderPane();
+        // Borderpane pro batoh / přechody a mapu
+        BorderPane borderPane3 = new BorderPane();
+         
+        //Text s priebehom hry.
+        centralText = new TextArea();
         centralText.setText(hra.vratUvitani());
         centralText.setEditable(false);
         borderPane.setCenter(centralText);
         
+        //Label s textom Zadej prikaz
         Label zadejPrikazLabel = new Label("Zadej prikaz: ");
         zadejPrikazLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         
-        TextField zadejPrikazTextField = new TextField("...");
+        //Text area, do ktorej píšeme príkazy
+        zadejPrikazTextField = new TextField("...");
         zadejPrikazTextField.setOnAction(new EventHandler<ActionEvent>
         () {
-
+            
+             /*
+            * Zpracování příkazů, odpověď hry, vrácení centrálního textu.
+            */
             @Override
             public void handle(ActionEvent event) {
                 String vstupniPrikaz = zadejPrikazTextField.getText();
@@ -95,25 +116,37 @@ public class Main extends Application {
             }
         });
       
-        // FlowPane obrazekFlowPane = new FlowPane ();
-       // obrazekFlowPane.setPrefSize(200,200);
-       // ImageView obrazekImageView = new ImageView (new Image(Main.class.getResourceAsStream("/zdroje/mapa.png"),300,300,false,true));
-       // Circle tecka = new Circle(10, Paint.valueOf("red"));
-        //obrazekFlowPane.setAlignment(Pos.CENTER);
-        //obrazekFlowPane.getChildren().add(obrazekImageView);
-        
-        
+        /**
+        * Definujeme umístnění menu, seznamu obrázku.
+        * 
+        */    
+        //Dolná lišta s elementami.
         FlowPane dolniLista = new FlowPane();
         dolniLista.setAlignment(Pos.CENTER);
         dolniLista.getChildren().addAll(zadejPrikazLabel, zadejPrikazTextField);
         
-        borderPane.setLeft(mapa);
-        //borderPane.setRight(seznamObrazku); 
         borderPane.setBottom(dolniLista);
         borderPane.setTop(menuLista);
+           
         
+        // panel Veci     
+        panelVeci = new PanelVeci(hra.getHerniPlan(),centralText);
+        borderPane2.setLeft(panelVeci.getList());
+        // panel Východů
+        panelVychodu = new PanelVychodu(hra.getHerniPlan(),centralText,zadejPrikazTextField);
+        
+        
+        borderPane2.setRight(panelVychodu.getList());
+        
+        borderPane.setRight(borderPane2);
+        // panel Batohu
+        seznamObrazku = new SeznamObrazku(hra.getHerniPlan(),centralText);
+        borderPane3.setLeft(seznamObrazku.getList());
+        
+        borderPane3.setTop(mapa);
+        borderPane.setLeft(borderPane3);
+       
         Scene scene = new Scene(borderPane, 750, 450);
-
         primaryStage.setTitle("Adventura");
 
         primaryStage.setScene(scene);
@@ -121,20 +154,31 @@ public class Main extends Application {
         zadejPrikazTextField.requestFocus();
     }
 
-   
+    /**
+    * Metoda vrací text.
+    * 
+    */
     public TextArea getCentralText() {
         return centralText;
     }
 
+    
+    /**
+    * Metoda vrací mapu.
+    * 
+    */
     public Mapa getMapa() {
         return mapa;
     }
     
-   
+    /**
+    * Metoda vrací stage.
+    * 
+    */
     public Stage getStage() {
         return stage;
     }
-    //je to dobre ??? get nad
+    
     /**
      * @param args the command line arguments
      */

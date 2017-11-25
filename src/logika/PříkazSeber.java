@@ -5,30 +5,29 @@ package logika;
 
 
 /*******************************************************************************
- * Instance třídy PříkazSeber představují ...
+ * Instance třídy PříkazSeber umožňuje zobratie prenositeľných vecí do batohu.
  * Hráč pomocou tohto príkazu bude môcť zobrať vec a vložiť ju do batohu, 
  * pokiaľ je v ňom ešte miesto a pokiaľ je vec prenositeľná.
  *
  * @author    Simona Nepšinská
- *            pro školní rok 2015/2016 LS - cvičenie Štvrtok 11:00
- * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
   */
 public class PříkazSeber implements IPrikaz
 {
     //== Datové atributy (statické i instancí)======================================
     private static final String NAZEV = "seber";
     private HerniPlan plan;
+    private Batoh batoh;
    
     
     //== Konstruktory a tovární metody =============================================
 
     /***************************************************************************
-     *  Konstruktor ....
+     *  Konstruktor pre triedu PrikazSeber.
      */
-    public PříkazSeber(HerniPlan plan)
+    public PříkazSeber(HerniPlan plan, Batoh batoh)
     { this.plan=plan;
-     //this.batoh=batoh;
+      this.batoh=plan.getBatoh();
     }
     
     @Override
@@ -50,23 +49,31 @@ public class PříkazSeber implements IPrikaz
         
         String nazevSbiraneho=parametry[0];
         Prostor aktualni=plan.getAktualniProstor();
-        Vec vec=aktualni.getVec(nazevSbiraneho); 
+        Vec vec=aktualni.odeberVec(nazevSbiraneho); 
         if(vec==null){
-        return "to tu neni";
+        return "To tu neni.";
         }
         
-        if(vec.jePrenositelna()){
-            plan.getBatoh().pridajVec(vec);
-            aktualni.vyberVec(nazevSbiraneho); 
-            return "sebráno";
-        }
-        
-        aktualni.vlozVec(vec);
-        return "to neuzvedneš";
-        
-        
-        
-        
+      else{
+            if(vec.jePrenositelna()){
+                // věc lze přenést
+                if(batoh.vlozVec(vec)){
+                    plan.notifyObservers();
+                    return "Sebral/a jsi " + vec.getNazev() + ".";
+                }
+                aktualni.vlozVec(vec);
+                plan.notifyObservers();
+                return "Batoh je plný. Nejprve se zbav zbytečností.";
+                // pokud se nevejde, musí se vrátit do prostoru
+                // pokud ano, dá věc do kapsy
+            }  
+            else{
+                aktualni.vlozVec(vec);
+                plan.notifyObservers();
+                return "Tohle si odtud vzít nemůžeš.";
+                // věc není přenositelná
+            }  
+        }   
         
     }
     
@@ -78,9 +85,6 @@ public class PříkazSeber implements IPrikaz
     public String getNazev(){
         return NAZEV;
     }
-    //== Nesoukromé metody (instancí i třídy) ======================================
-
-
-    //== Soukromé metody (instancí i třídy) ========================================
+    
 
 }

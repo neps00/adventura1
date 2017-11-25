@@ -9,6 +9,7 @@ import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -20,31 +21,32 @@ import utils.Observer;
 
 
 /**
- * Trieda umožňuje zobrazenie obrázkov, ktoré sú v batohu.
+ * Trieda umožňuje zobrazit veci, ktoré sú v priestore. 
  * @author    Simona Nepšinská
  *            pro školní rok 2017/2018 - cvičení UT 9:15
  */
 
-public class SeznamObrazku implements Observer{
+public class PanelVeci implements Observer{
     
     private HerniPlan plan;
     ListView<Object> list;
     ObservableList<Object> data;
-    
     private TextArea centralText;
 
     /*
-    * Konstruktor pro panel kapsy.
+    * Konstruktor pro panel veci.
     */
-    public SeznamObrazku(HerniPlan plan,TextArea text) {
+    public PanelVeci(HerniPlan plan, TextArea text) {
        this.plan = plan;
        plan.registerObserver(this);
+       
        centralText = text;
         init();
     }
 
     /*
-    * Metoda vytvoří list pro věci v batohu. Pričom odstranovanie vecí funguje na princípe dvojkliku na danú vec(obrázok) myšou.
+    * Metoda vytvoří list pro věci v priestore. Dvojkliknutím na daný obrázok v priestore, sa daná vec presunie do batohu, pokiaľ splňuje všetky 
+    * požiadavky.
     */
     private void init() {
         list = new ListView<>();
@@ -62,7 +64,7 @@ public class SeznamObrazku implements Observer{
                     int index = list.getSelectionModel().getSelectedIndex();
                     
                     Map<String, Vec> seznam;
-                    seznam = plan.getBatoh().vratBatoh();
+                    seznam = plan.getAktualniProstor().getVeci();
                     
                     String nazev = "";
                     int pomocna = 0;
@@ -75,8 +77,8 @@ public class SeznamObrazku implements Observer{
                        pomocna++;
                     }
                     
-                    String vstupniPrikaz = "odhod "+nazev;
-                    String odpovedHry = plan.getHra().zpracujPrikaz("odhod "+nazev);
+                    String vstupniPrikaz = "seber "+nazev;
+                    String odpovedHry = plan.getHra().zpracujPrikaz("seber "+nazev);
 
                 
                     centralText.appendText("\n" + vstupniPrikaz + "\n");
@@ -89,24 +91,25 @@ public class SeznamObrazku implements Observer{
         
         
         
+        
         update();
     }
     
     /*
-    * Metoda vrací list.
+    * Metoda vrací zoznam veci, ktoré sú v priestore.
     */
     public ListView<Object> getList() {
         return list;
     }
     
     /*
-    * Metoda aktualizuje list věcí v batohu. Zobrazuje obrázky věcí, které má hráč u sebe.
+    * Metoda aktualizuje list věcí v pristore. Zobrazuje obrázky věcí, ktoré sú v priestore.
     */
     @Override 
     public void update() 
     {        
         Map<String, Vec> seznam;
-        seznam = plan.getBatoh().vratBatoh();
+        seznam = plan.getAktualniProstor().getVeci();
         data.clear();
         for (String x : seznam.keySet()) 
         {
@@ -125,7 +128,4 @@ public class SeznamObrazku implements Observer{
         plan.registerObserver(this);
         this.update();
     }
-
-
-
 }

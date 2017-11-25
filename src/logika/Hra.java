@@ -9,32 +9,32 @@ package logika;
  *  Také vyhodnocuje jednotlivé příkazy zadané uživatelem.
  *
  *@author     Simona Nepšinská
- *            pro školní rok 2015/2016 LS- cvičenie Štvrtok 11:00
- * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
+ *  
  */
 
 public class Hra implements IHra {
     private SeznamPrikazu platnePrikazy;    // obsahuje seznam přípustných příkazů
     private HerniPlan herniPlan;
     private boolean konecHry = false;
+    private Batoh batoh;
     
 
     /**
      *  Vytváří hru a inicializuje místnosti (prostřednictvím třídy HerniPlan) a seznam platných příkazů.
      */
     public Hra() {
-        herniPlan = new HerniPlan();
+        herniPlan = new HerniPlan(this);
         platnePrikazy = new SeznamPrikazu();
         platnePrikazy.vlozPrikaz(new PrikazNapoveda(platnePrikazy));
         platnePrikazy.vlozPrikaz(new PrikazJdi(herniPlan));
         platnePrikazy.vlozPrikaz(new PrikazKonec(this));
-        platnePrikazy.vlozPrikaz(new PříkazSeber(herniPlan));
+        platnePrikazy.vlozPrikaz(new PříkazSeber(herniPlan, batoh));
         platnePrikazy.vlozPrikaz(new PrikazOdemkni(herniPlan));
        platnePrikazy.vlozPrikaz(new PrikazProzkoumej(herniPlan));
        platnePrikazy.vlozPrikaz(new PrikazMluv(herniPlan));
        platnePrikazy.vlozPrikaz(new PrikazDej(herniPlan));
-       platnePrikazy.vlozPrikaz(new PrikazOdhod(herniPlan));
+       platnePrikazy.vlozPrikaz(new PrikazOdhod(herniPlan, batoh));
        
     }
 

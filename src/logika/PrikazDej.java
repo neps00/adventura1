@@ -5,13 +5,12 @@ package logika;
 
 
 /*******************************************************************************
- * Instance třídy PrikazDej představují ...
+ * Instance třídy PrikazDej představují fungování předání určité věci osobě.
  * Tento príkaz odovzdá určitý predmet nejakej postave.
  *
  * @author    Simona Nepšinská
- *            pro šk.rok 2015/2016 LS - cvičenie Štvrtok 11:00
- * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
+ *
  */
 public class PrikazDej implements IPrikaz
 {
@@ -21,7 +20,7 @@ public class PrikazDej implements IPrikaz
     //== Konstruktory a tovární metody =============================================
 
     /***************************************************************************
-     *  Konstruktor ....
+     *  Konstruktor triedy PrikazDej.
      */
     public PrikazDej(HerniPlan plan)
     {this.plan=plan;
@@ -88,9 +87,4 @@ public class PrikazDej implements IPrikaz
     }
     
     
-    //== Nesoukromé metody (instancí i třídy) ======================================
-
-
-    //== Soukromé metody (instancí i třídy) ========================================
-
 }

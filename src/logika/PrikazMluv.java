@@ -5,13 +5,12 @@ package logika;
 
 
 /*******************************************************************************
- * Instance třídy PrikazMluv představují ...
+ * Instance třídy PrikazMluv umožňuje mluvení s osobami ve hře.
  * Táto trieda umožňuje mluvit s postavami v hre. 
  *
  * @author    Simona Nepšinská
- *            pro školní rok 2015/2016 LS - cvičenie Štvrtok 11:00
- *@version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
+ 
  */
 public class PrikazMluv implements IPrikaz
 {
@@ -21,7 +20,7 @@ public class PrikazMluv implements IPrikaz
     //== Konstruktory a tovární metody =============================================
 
     /***************************************************************************
-     *  Konstruktor ....
+     *  Konstruktor pro třídu PrikazMluv.
      */
     public PrikazMluv(HerniPlan plan)
     { this.plan=plan;
@@ -45,6 +44,7 @@ public class PrikazMluv implements IPrikaz
                 
         if(postava ==null){
             return "Takáto postava tu nie je.";
+            
         }
         else{
             return postava.getMluv(); 
@@ -63,10 +63,5 @@ public class PrikazMluv implements IPrikaz
     }
     
     
-
-    //== Nesoukromé metody (instancí i třídy) ======================================
-
-
-    //== Soukromé metody (instancí i třídy) ========================================
 
 }

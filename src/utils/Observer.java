@@ -7,10 +7,13 @@ package utils;
 
 /**
  *
- * @author neps00
+ * @author Simona Nepšinská
+ * 
+ * Interface. Aktualizace observeru.
+ * 
  */
 public interface Observer {
     
-    public void update();
+    void update();
     
 }

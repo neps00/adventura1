@@ -14,9 +14,7 @@ import java.util.stream.Collectors;
  * si prostor ukládá odkaz na sousedící prostor.
  *
  * @author Simona Nepšinská
- *          pro školní rok 2015/2016 LS - cvičenie Štvrtok 11:00
- *  @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *          pro školní rok 2017/2018 - cvičení UT 9:15
  */
 public class Prostor {
 
@@ -32,7 +30,7 @@ public class Prostor {
     private boolean probehlaVymena=false;
     private double posLeft;
     private double posTop;
-
+   
     /**
      * Vytvoření prostoru se zadaným popisem, např. "kuchyň", "hala", "trávník
      * před domem"
@@ -49,12 +47,21 @@ public class Prostor {
         vychody = new HashSet<>();
         veci=new HashMap<>();
         postavy= new HashSet<>();
+       
     }
     
+    /**
+     * Metoda vrací pozici objektu.
+     * @return posLeft
+     */
     public double getPosLeft() {
     return posLeft;
     }
     
+    /**
+     * Metoda vrací pozici objektu.
+     * @return posTop
+     */
     public double getPosTop() {
     return posTop;
     }
@@ -169,11 +176,11 @@ public class Prostor {
      * @return Popis východů - názvů sousedních prostorů
      */
     private String popisVychodu() {
-        String vracenyText = "vychody:";
+        String vracenyText = "Vychody: ";
         for (Prostor sousedni : vychody) {
             vracenyText += " " + sousedni.getNazev();
             if(sousedni.jeZamceno()){
-                vracenyText += "(zamknuto)";
+                vracenyText += "(Zamknuto!)";
             }
         }
         return vracenyText;
@@ -201,6 +208,24 @@ public class Prostor {
         }
     }
 
+    
+    /**
+     * 
+     * Metoda vypíše zoznam východov z aktuálneho prostoru.
+     *  
+     */
+     public String seznamVychodu() 
+    {
+        String vracenyText = "vychody:";
+        for (Prostor sousedni : vychody) {
+             vracenyText += " " + sousedni.getNazev();
+        }
+        return vracenyText;
+    }
+      
+    
+  
+    
     /**
      * Vrací kolekci obsahující prostory, se kterými tento prostor sousedí.
      * Takto získaný seznam sousedních prostor nelze upravovat (přidávat,
@@ -214,11 +239,7 @@ public class Prostor {
         return Collections.unmodifiableCollection(vychody);
     }
 
-    //public String dlouhyPopis(){
-    //  return "Jsi v mistnosti/prostoru" + popis + ".\n"
-    //+ popisVychodu() + "\n"
-    //+ popisVeci();
-    //}- je to napisane vyssie
+   
     /**
      * Vkladá vec do priestoru
      * 
@@ -228,32 +249,64 @@ public class Prostor {
         veci.put(neco.getNazev(),neco);
     }
 
-    //public Vec odeberVec(String nazev){
-
-    //   return veci.remove(nazev);
-    // }
     /**
-     * Zistí, či v priestore je vec so zadaným názvom a vypíše ju. Prehliada nielen priestory, ale aj veci,
-     * v prípade, že by vo veciach boli iné veci.
-     * 
-     * @param - nazev veci
-     * @return - buď vec, ak ju nájde alebo null v prípade, že taká vec nie je ani v priestore ani vo veciach
+     * Odebereme věc z mapy a vrátí se název námi odebrané věci.
+     *
+     *@param    String název odebírané věci
+     *@return   odebraná věc
      */
-    public Vec getVec(String nazev) {
-        for (Vec vec : veci.values()){
-            if(vec.getNazev().equals(nazev)){
-                return vec;
-            }
-
-            if(vec.getVec(nazev) != null){
-                return vec.getVec(nazev);
-
-            }
-        }
-        return null;
-
+    public Vec odeberVec(String nazev){
+        return veci.remove(nazev);
     }
     
+    
+    /**
+     * Pokud věc není v místnosti, prohledávají se věci v místnosti.
+     * Pokud nějaká věc obsahuje věc hledanou, vrací se true.
+     * Pokud hledaná věc není nikde v prostoru (ani v "truhle"), vrací se false.
+     * V ostatní případech se věc s prostoru vyskytuje, metoda vrací true.
+     *
+     *@param    String jmeno veci
+     *@return   true/false 
+     */
+    public boolean obsahujeVec(String jmeno) {
+        if (najdiVecVMistnosti(jmeno) == null) { // vec není v místnosti
+            for (Vec vec : veci.values()) {    // prohledávám věci v místnosti
+                if (vec.obsahujeVec(jmeno)) { // když nějaká věc obsahuje věc
+                    return true;
+                }
+            }
+            return false;  // věc není ani v prozkoumaných věcech (truhlách)
+        }
+        else {
+            return true;
+        }
+
+    }
+        
+    /**
+     * Metoda vráti veci v mape.
+     * 
+     */
+    public Map<String,Vec> getVeci()
+     {
+         return this.veci;
+     }
+        
+    /**
+     * Popisuje veci, ktoré sú v miestnosti.
+     * 
+     * @return text s vecami
+     */   
+    private String popisVeci(){
+    
+        String vracenyText= "\nJsou tu tyto veci: ";
+        for(String nazev: veci.keySet()){
+            vracenyText += " " + nazev;
+        }
+        return vracenyText;
+    }
+       
     /**
      * Odoberá vec z vecí. Vloží sa výsledok z metódy najdiVecVMistnosti a skúma či nie je aj vo veciach. Ak je tak sa odoberie.
      * 
@@ -274,16 +327,15 @@ public class Prostor {
     }
     
     /**
-     * Pomocná metóda k metóde vyber vec. Hľadá vec len v priestore a ak ju nájde tak ju odoberie.
+     * Pomocná metóda k metóde vyber vec. Hľadá vec len v priestore.
      * 
      * @return null(na zaciatku nastavene), ak vec nie je v priestore
      */
-    private Vec najdiVecVMistnosti(String nazev) {
+    public Vec najdiVecVMistnosti(String nazev) {
         Vec vec = null;
         for (Vec neco : veci.values()) {
             if (neco.getNazev().equals(nazev)) {
                 vec = neco;
-                veci.remove(vec);
                 break;
             }
         }
@@ -326,12 +378,12 @@ public class Prostor {
      * Vypíše zoznam postáv, ak sú nejaké v miestnosti.
      */
     public String seznamPostav() {
-        String seznam = "\n Osoby v místnosti: ";
+        String seznam = "\nOsoby v místnosti: ";
         if (postavy.size()==0){
             seznam = seznam + " žádné osoby zde nejsou.";}
         else{
             for (Postava u : postavy) {
-                seznam += "\n *** " + u.getJmeno();
+                seznam += u.getJmeno();
             }}
         return seznam;
     }
@@ -351,15 +403,13 @@ public class Prostor {
     }
     
     /**
-     * Přidá osobu
+     * Přidá osobu.
      * 
      */
     public void setPostava(Postava o) {
         postavy.add (o);
     }
      
-    
-    
     /**
      * Vymaže osobu zo zoznamu postav, ak tam nie je vráti null, ak tam je tak sa vyberie a vypíše ju.
      * 
@@ -375,20 +425,6 @@ public class Prostor {
         return null;
     }
     
-       
     
-    /**
-     * Popisuje veci, ktoré sú v miestnosti.
-     * 
-     * @return text s vecami
-     */   
-    private String popisVeci(){
-        //return null;
-        String vracenyText= " jsou tu tyto veci: ";
-        for(String nazev: veci.keySet()){
-            vracenyText += " " + nazev;
-        }
-        return vracenyText;
-    }
 
 }

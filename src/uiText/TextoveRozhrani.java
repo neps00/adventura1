@@ -14,9 +14,7 @@ import java.io.*;
  *  
  *
  * @author    Simona Nepšinská
- *            pro školní rok 2015/2016 LS - cvičenie Štvrtok 11:00
- * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
  */
 
 public class TextoveRozhrani {
@@ -49,27 +47,35 @@ public class TextoveRozhrani {
     }
     
     public void hrajZeSouboru(String nazevSouboru) {
-        //u try kulate zavorky jako
-        //musime pridat close a este catch na to-lebo sa moze vyhodit exception
+        // základní cyklus programu - opakovaně se čtou příkazy a poté
+        // se provádějí do konce hry
         try(BufferedReader ctecka = new BufferedReader (new FileReader(nazevSouboru)))
         {
-         //buf. obaluje a bol tu predtym...
-        // základní cyklus programu - opakovaně se čtou příkazy a poté
-        // se provádějí do konce hry.
+         // FileReader obalíme BufferedReaderem
+         // a ukládáme ho do čtečky
         System.out.println(hra.vratUvitani());
         
         String radek = ctecka.readLine();
         while (!hra.konecHry() && radek != null) {
             System.out.println("*"+radek+"*");
+            // mezi hvězdičkami je to, co se načte ze souboru
             System.out.println(hra.zpracujPrikaz(radek));
             radek = ctecka.readLine();
         }
         
         System.out.println(hra.vratEpilog());
         }
+        
+        // vyzkoušej blok try
+        // pokud dojde k výjimce, následuje blok catch
         catch(FileNotFoundException e){
             System.out.println("Soubor nenalezen"+ e);
         }
+        
+        // výjimkou je FileNotFoundException
+        // napíšeme, že se soubor nenašel
+        // to v případě, že do Main - Start napíšeme například {"prikazy.txt"}
+        // ale soubor {"prikazy.txt"} neexistuje
         catch(IOException e){ // v kazdem bloku je to jine e-cko
            System.out.println("Problém se vstupem"+ e); 
         }

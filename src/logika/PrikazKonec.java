@@ -6,9 +6,8 @@ package logika;
  *  Príkaz ukončuje hru.
  *  
  *@author     Simona Nepšinská
- *            pro školní rok 2015/2016 LS - cvičenie Štvrtok 11:00
- * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
+ * 
  *  
  */
 
@@ -41,7 +40,7 @@ class PrikazKonec implements IPrikaz {
         }
         else {
             hra.setKonecHry(true);
-            return "hra ukončena příkazem konec";
+            return "Hra ukončena příkazem konec.";
         }
     }
 

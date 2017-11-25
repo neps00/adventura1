@@ -6,9 +6,7 @@ package logika;
  *  Umožňuje vstupovať do rôznych priestor hry.
  *  
  *@author     Simona Nepšinská
- *            pro školní rok 2015/2016 LS - cvičenie Štvrtok 11:00
- * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
  */
 class PrikazJdi implements IPrikaz {
     private static final String NAZEV = "jdi";
@@ -40,27 +38,22 @@ class PrikazJdi implements IPrikaz {
         }
 
         String smer = parametry[0];
-        
         Prostor sousedniProstor = plan.getAktualniProstor().vratSousedniProstor(smer);
-        
 
         if (sousedniProstor == null) {
             return "Tam se odsud jít nedá!";
         }
         else {
             if(sousedniProstor.jeZamceno()){
-                return "dvere do miestnosti "+sousedniProstor.getNazev()
-                +" sú zamknuté";
+                return "Dvere do miestnosti "+sousedniProstor.getNazev()
+                +" sú zamknuté.";
             
             }
             
             }
             plan.setAktualniProstor(sousedniProstor);
             return sousedniProstor.dlouhyPopis();
-        
-            
-              
-        
+       
         }
     
     

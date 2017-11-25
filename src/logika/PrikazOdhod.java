@@ -4,30 +4,28 @@ package logika;
 
 
 /*******************************************************************************
- * Instance třídy PrikazOdhod představují ...
+ * Instance třídy PrikazOdhod umožňuje vyhadzovanie vecí z batoha.
  * Trieda odhod, odhodi vybranu vec z batohu, aby tam bolo miesto.
  *
  * @author    Simona Nepšinská
- *            pro šk. rok 2015/2016 LS - cvičenie Štvrtok 11:00
- * 
- *  @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
  */
 public class PrikazOdhod implements IPrikaz
 {
     //== Datové atributy (statické i instancí)======================================
     private static final String NAZEV ="odhod";
     private HerniPlan plan;
+    private Batoh batoh;
     
     //== Konstruktory a tovární metody =============================================
 
     /***************************************************************************
-     *  Konstruktor ....
+     *  Konstruktor pre triedu PrikazOdhod
      */
-    public PrikazOdhod(HerniPlan plan)
+    public PrikazOdhod(HerniPlan plan, Batoh batoh)
     { this.plan = plan;
-      
-      
+    this.batoh = plan.getBatoh();
+        
     }
 
     /**
@@ -39,23 +37,25 @@ public class PrikazOdhod implements IPrikaz
     public String proved(String... parametry) {
         if (parametry.length == 0) {
             return "Čo mám zahodit? ";
+            //ak hráč nenapíše, co má zahodit
         }
 
         String nazevVeci = parametry[0];
         Prostor aktualni=plan.getAktualniProstor();
-        Batoh batoh=plan.getBatoh();
         Vec vec=batoh.getVec(nazevVeci);
         
         if(vec !=null){
             batoh.odeberVec(nazevVeci);
             aktualni.vlozVec(vec);
-            return "Odhodil si " + nazevVeci;
+            plan.notifyObservers();
+            return "Odhodil si " + nazevVeci + ".";
+            //Zadaná vec sa odhodí do prostoru
             
         
         }
         else{        
             return "Taká vec v batohu nie je!";
-            
+            //Ak napíše takú vec, ktorá v batohu není
         }
         
     }

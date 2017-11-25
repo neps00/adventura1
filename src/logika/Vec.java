@@ -5,12 +5,11 @@ import java.util.*;
 
 
 /*******************************************************************************
- * Instance třídy Vec představují ...
+ * Instance třídy Vec představují veci, které se v hre používají nebo jenom vyskytují.
  *
  * @author    Simona Nepšinská
- *            pro školní rok 2015/2016 LS - cvičenie Štvrtok 11:00
- * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
+ * 
  */
 public class Vec
 {
@@ -18,41 +17,54 @@ public class Vec
     private String nazev;
     private boolean prenositelnost;
     private boolean prozkoumana= false;
-    private Map<String,Vec> seznamVeci;
-    private String soubor;
+    private Map<String,Vec> veci;
+    private String obrazek;
    
     //== Konstruktory a tovární metody =============================================
 
     /***************************************************************************
      *  Konstruktor triedy vec 
-     *  -jej nazov a ci je prenositelna
+     *  -jej nazov, ci je prenositelna a obrázok
      */
-    public Vec(String nazev, boolean prenositelnost, String soubor)
+    public Vec(String nazev, boolean prenositelnost, String obrazek)
     {this.nazev=nazev;
         this.prenositelnost=prenositelnost;
-     seznamVeci = new HashMap<String,Vec>();
-     this.soubor = soubor;
+     veci = new HashMap<String,Vec>();
+     this.obrazek = obrazek;
      
 
     }
     
     /**
-     * Vráti meno vci.
+     * Metoda vrácia meno vci.
      */
     public String getNazev(){
         return nazev;
+    }
+    /**
+     * Metoda vracia obrázek.
+     * 
+     * 
+     */
+    public String getObrazek(){
+        return obrazek;
     }
     
     /**
      * Zisti, či je vec prenositeľná
      * @return true - ak je prenositeľná
+     *          false - ak nie je prenositeľná
      */
     public boolean jePrenositelna(){
         return prenositelnost;
     }
     
+    /**
+     * Metoda vrací seznam věcí, pokud v seznamu jsou nějaké věci. Pokud ne, vrací null.
+     * 
+     */
     public Vec getVec(String nazev){
-    for(Vec vec: seznamVeci.values()){
+    for(Vec vec: veci.values()){
         if(vec.getNazev().equals(nazev)){
             return vec;
         }
@@ -72,15 +84,15 @@ public class Vec
     /**
      * Vloží vec do inej veci.
      */
-    public void vlozVec (Vec neco) {
-        seznamVeci.put(neco.getNazev(), neco);
+    public void vlozVec(Vec neco) {
+        veci.put(neco.getNazev(), neco);
     }
 
     /**
      * Zistí, či sa určité veci nachádzajú v inej veci(truhle).
      */
     public boolean obsahujeVec(String nazev) {
-        return prozkoumana && seznamVeci.containsKey(nazev);
+        return prozkoumana && veci.containsKey(nazev);
     }
     
     /**
@@ -92,11 +104,11 @@ public class Vec
     public Vec vyberVec(String nazev) {
        
         Vec vec = null;
-        if (seznamVeci.containsKey(nazev)) {
-            vec = seznamVeci.get(nazev);
+        if (veci.containsKey(nazev)) {
+            vec = veci.get(nazev);
             if (vec.jePrenositelna()) {
                 
-                seznamVeci.remove(nazev);
+                veci.remove(nazev);
             }
         }
         
@@ -107,11 +119,11 @@ public class Vec
      * Vracia popis danej veci, keď ju preskúmavaš
      */
     public String popisProzkoumej() {
-        if (seznamVeci.isEmpty()) {
+        if (veci.isEmpty()) {
             return "prohlédl jsi si pozorně "+nazev+", je opravdu dobře udělaný";
         }
         String popis = "Prohlédl jsi si pozorně "+nazev+" a uvnitř jsi našel:";
-        for (String nazev : seznamVeci.keySet()) {
+        for (String nazev : veci.keySet()) {
             popis += " " + nazev;
         }
         return popis;
@@ -129,16 +141,24 @@ public class Vec
      */
     public String popisVec(){
         
-        if(seznamVeci.isEmpty()){
-            return "Prehliadol si si "+nazev+"a je naozaj pekná";
+        if(veci.isEmpty()){
+            return "Prehliadol si si "+nazev+" a sú(je) naozaj pekná,-é,-ý";
         }
         else{
         String vracenyText= " jsou tu tyto veci: ";
-        for(String nazev: seznamVeci.keySet()){
+        for(String nazev: veci.keySet()){
             vracenyText += " " + nazev;
         }
         return vracenyText;
        }
+    }
+    
+    /**
+     * Metoda vracia zoznam veci prostredníctvom mapy.
+     */
+    public Map getSeznamVeci()
+    {
+        return veci;
     }
     
 }

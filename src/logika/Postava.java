@@ -5,12 +5,11 @@ package logika;
 
 
 /*******************************************************************************
- * Instance třídy Postava představují ...
+ * Instance třídy Postava představují postavy, ktoré sa v hre vyskytujú.
  *
  * @author    Simona Nepšinská
- *            pro školní rok 2015/2016 LS - cvičenie Štvrtok 11:00
- * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
+ *
  */
 public class Postava
 {
@@ -23,7 +22,7 @@ public class Postava
     //== Konstruktory a tovární metody =============================================
 
     /***************************************************************************
-     *  Konstruktor ....
+     *  Konstruktor pro postavu.
      */
     public Postava(String jmeno, String mluvPred)
     {this.jmeno = jmeno;
@@ -31,12 +30,21 @@ public class Postava
      
     }
     
+    /**
+     * Metoda nevrací nic, jenom nastavuje podmínky vymeny.
+     * @param coChce
+     * @param mluvPo 
+     */
     public void nastavVymenu(Vec coChce, String mluvPo){
         this.coChce=coChce;
         this.mluvPo=mluvPo;
     }
     
-    
+    /**
+     * Metoda overuje, či prebehla výmena.
+     * @return true- ak prebehla
+     *          false - ak neprebehla
+     */
     public boolean getProbehlaVymena(){
         return probehlaVymena;
     }
@@ -48,10 +56,18 @@ public class Postava
        this.probehlaVymena=vymena;
     }
     
+    /**
+     * Metoda vrací proslov postavy pred výmenou.
+     * @return proslov mluvPred
+     */
     public String getMluv(){
     return mluvPred;
     }
     
+    /**
+     * Metoda vrací proslov postavy, když neprobehla výmena je to proslov mluvPred a keď probehla, tak mluvPo.
+     * 
+     */
     public String getVymena(){
     if(probehlaVymena){
         return mluvPred;
@@ -62,10 +78,18 @@ public class Postava
     }
     }
     
+    /**
+     * Metoda vrací jméno postavy.
+     *
+     */
     public String getJmeno(){
         return jmeno;
     }
     
+    /**
+     * Metoda vrací jaku vec chce osoba na vymenu.
+     * @return 
+     */
     public Vec getCoChce() {
         return coChce;
     }

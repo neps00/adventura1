@@ -7,7 +7,10 @@ package utils;
 
 /**
  *
- * @author neps00
+ * @author Simona Nepšinská
+ * 
+ * Interface. Registrace, odstranění a notifikace observeru.
+ * 
  */
 public interface Subject {
     
@@ -16,4 +19,5 @@ public interface Subject {
     void removeObserver(Observer observer);
     
     void notifyObservers();
+    
 }

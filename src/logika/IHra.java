@@ -10,9 +10,8 @@ package logika;
  *  Rozhraní které musí implementovat hra, je na ně navázáno uživatelské rozhraní
  *
  *@author    Simona Nepšinská
- *            pro školní rok 2015/2016
- * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
+ * 
  */
 public interface IHra
 {

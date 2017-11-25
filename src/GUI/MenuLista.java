@@ -23,13 +23,19 @@ import logika.IHra;
 import main.Main;
 
 /**
- *
- * @author xzenj02
+ *  Trieda, ktorá vytvára lištu menu.
+ *  @author    Simona Nepšinská
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
  */
 public class MenuLista extends MenuBar{
     
     private IHra hra;
     private Main main;
+    
+    /**
+    * Konstruktor triedy menuLista.
+    * 
+    */
     
     public MenuLista(IHra hra, Main main){
         this.hra = hra;
@@ -37,14 +43,19 @@ public class MenuLista extends MenuBar{
         init();
     }
     
+    /**
+    * Metoda vytvaří menu Adventura a Help. V každém jsou dvě položky. Cez Adventru mužeme spustit novou hru nebo ukončit aktuální hru.
+    * Cez Help se nám ukáže nápověda ke hře-přikazy a taky nápověda o programu.
+    * 
+    */
+    
     private void init(){
         
         Menu novySoubor = new Menu("Adventura");
         Menu napoveda = new Menu ("Help");
         
         MenuItem novaHra = new MenuItem("Nova hra");
-        //, new ImageView(new Image(Main.class.getResourceAsStream("/zdroje/ikona.png")))
-        
+                
         novaHra.setAccelerator(KeyCombination.keyCombination("Ctrl+H"));
         MenuItem konecHry = new MenuItem("Konec hry");
         
@@ -78,12 +89,17 @@ public class MenuLista extends MenuBar{
         
        oProgramu.setOnAction(new EventHandler<ActionEvent>() {
 
-            @Override
+    /**
+    * Zobrazí se okno s informacemi o programu.
+    * 
+    */ 
+           
+           @Override
             public void handle(ActionEvent event) {
                 Alert oProgramuAlert = new Alert(Alert.AlertType.INFORMATION);
                 oProgramuAlert.setTitle("O programu");
-                oProgramuAlert.setHeaderText("Super adventura");
-                oProgramuAlert.setContentText("moja hra");
+                oProgramuAlert.setHeaderText("Kachní hledání");
+                oProgramuAlert.setContentText("Cieľom adventury je nájsť stratenú kachničku a poraziť zlého vlka, ktorý ju uniesol.");
                 oProgramuAlert.initOwner(main.getStage());
                 
                 oProgramuAlert.showAndWait();
@@ -92,7 +108,11 @@ public class MenuLista extends MenuBar{
        
        napovedaItem.setOnAction(new EventHandler<ActionEvent>() {
 
-            @Override
+    /**
+    * Zobrazí se okno s informacemi o nápověde - jak hrát hru.
+    * 
+    */
+           @Override
             public void handle(ActionEvent event) {
                 Stage stage = new Stage();
                 stage.setTitle("Napoveda");

@@ -2,25 +2,28 @@
  * Kontrola kódování: Příliš žluťoučký kůň úpěl ďábelské ódy. */
 package logika;
 
+import java.util.*;
+
 
 /*******************************************************************************
- * Instance třídy PrikazProzkoumej představují ...
+ * Instance třídy PrikazProzkoumej umožňujú preskúmanie vecí, jestli v nej nie sú ukryté ďalšie veci.
  * Umožňuje prozkoumavat veci, aby sme zistili, či sú v nich ešte nejaké iné veci.
  *
  * @author    Simona Nepšinská
- *           pro školní rok 2015/2016 LS - cvičenie Štvrtok 11:00
- * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *           pro školní rok 2017/2018 - cvičení UT 9:15
+ *
  */
 public class PrikazProzkoumej implements IPrikaz
-{
-    //== Datové atributy (statické i instancí)======================================
+    {
+    
     private static final String NAZEV = "prozkoumej";
     private HerniPlan plan;
-    //== Konstruktory a tovární metody =============================================
+    private Map<String, Vec> veci;
+    private Vec vec;
+    
 
     /***************************************************************************
-     *  Konstruktor ....
+     *  Konstruktor pro prikaz prozkoumej.
      */
     public PrikazProzkoumej(HerniPlan plan)
     {this.plan=plan;
@@ -41,13 +44,24 @@ public class PrikazProzkoumej implements IPrikaz
         
         String nazevZkoumaneho=parametry[0]; 
         Prostor aktualni=plan.getAktualniProstor();
-        Vec zkoumana = aktualni.getVec(nazevZkoumaneho);  //vrati vec podľa názvu a uloží ju do zkoumanej
+        Vec zkoumana = aktualni.najdiVecVMistnosti(nazevZkoumaneho);  //vrati vec podľa názvu a uloží ju do zkoumanej
         
         if(zkoumana ==null){
             return "Takáto vec tu nie je.";
         }
         else{
+            if(zkoumana.getNazev().equals("truhla"))
+            {
+                veci = zkoumana.getSeznamVeci();
+                for (Vec vec : veci.values())
+                {
+                    aktualni.vlozVec(vec);
+                }
+            }
+            plan.notifyObservers();
+            zkoumana.prozkoumano(true);
             return zkoumana.popisVec(); 
+            //ak prozkoumáme truhlu, v mape sa nám zobrazia obrázky ďalších 3 veci
         }
             
     }
@@ -64,8 +78,4 @@ public class PrikazProzkoumej implements IPrikaz
         return NAZEV;
     }
 
-    
-    //== Nesoukromé metody (instancí i třídy) ======================================
-
-    //== Soukromé metody (instancí i třídy) ========================================
 }

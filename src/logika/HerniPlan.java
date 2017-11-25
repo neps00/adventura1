@@ -15,24 +15,24 @@ import utils.Subject;
  *  a pamatuje si aktuální prostor, ve kterém se hráč právě nachází.
  *
  *@author     Simona Nepšinská
- *            pro školní rok 2015/2016 LS - cvičenie Štvrtok 11:00
- * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
+ *
  */
-public class HerniPlan implements Subject {
+public class HerniPlan implements Subject{
     private final static String VITEZNY = "vlčie doupě"; //dopisane, aby sme sa nepomylili, tak sme vytvorili konstantu
     private Prostor aktualniProstor;
     private Batoh batoh;
-    
     private List<Observer> listObserveru = new ArrayList<Observer>();
+    private Hra hra;
     
      /**
      *  Konstruktor který vytváří jednotlivé prostory a propojuje je pomocí východů.
      *  Jako výchozí aktuální prostor nastaví halu.
      */
-    public HerniPlan() {
+    public HerniPlan(Hra hra) {
         zalozProstoryHry();
         batoh=new Batoh();
+        this.hra = hra;
 
     }
     /**
@@ -41,14 +41,14 @@ public class HerniPlan implements Subject {
      */
     private void zalozProstoryHry() {
         // vytvářejí se jednotlivé prostory
-        Prostor školka = new Prostor("školka","školka, kde sa hrajú a učia kachničky",110,50);
-        Prostor jazero = new Prostor("jazero", "jazero, kde býva kachnička s maminkou",20,50);
-        Prostor dedina = new Prostor("dedina","centrum kachniček, kde ma kanceláriu starostka",38,110);
-        Prostor lúka = new Prostor("lúka","lúka s truhlou",40,78);
-        Prostor brána = new Prostor("brána","zamknutá brána",42,69);
-        Prostor chalupa =new Prostor("chalupa","chalupa, kde býva obor",41,180);
-        Prostor les =new Prostor("les","les, kde môžeš stretnúť poľovníka",43,150);
-        Prostor vlčieDoupě =new Prostor("vlčie_doupě","doupě, kde býva vlk",50,100);
+        Prostor školka = new Prostor("školka","školka, kde sa hrajú a učia kachničky",35,25);
+        Prostor jazero = new Prostor("jazero", "jazero, kde býva kachnička s maminkou",110,25);
+        Prostor dedina = new Prostor("dedina","centrum kachniček, kde ma kanceláriu starostka",190,25);
+        Prostor lúka = new Prostor("lúka","lúka s truhlou",150,80);
+        Prostor brána = new Prostor("brána","zamknutá brána",90,135);
+        Prostor chalupa =new Prostor("chalupa","chalupa, kde býva obor",165,160);
+        Prostor les =new Prostor("les","les, kde môžeš stretnúť poľovníka",200,230);
+        Prostor vlčieDoupě =new Prostor("vlčie_doupě","doupě, kde býva vlk",100,250);
         
         
         // přiřazují se průchody mezi prostory (sousedící prostory)
@@ -68,7 +68,7 @@ public class HerniPlan implements Subject {
         
         brána.setZamknout(true);
         les.setZamknout(true);
-        Vec klic=new Vec("klic",true,"/zdroje/.png");
+        Vec klic=new Vec("klic",true,"klic.png");
         brána.nastavKlic(klic);
         
         
@@ -81,14 +81,15 @@ public class HerniPlan implements Subject {
         
         
         
+        //Založenie vecí.
+        Vec truhla=new Vec ("truhla", false,"truhla.png");
+        Vec strom=new Vec("strom", false,"strom.png");
+        Vec kvety=new Vec("kvety", true,"kvety.png");
+        Vec krabica= new Vec ("krabica", true,"krabica.png");
+        Vec fotka=new Vec("fotka",true,"fotka.png");
+        Vec jablko=new Vec("jablko",true,"jablko.png");
         
-        Vec truhla=new Vec ("truhla", false,"/zdroje/truhla.png");
-        Vec strom=new Vec("strom", false,"/zdroje/strom.png");
-        Vec kvety=new Vec("kvety", true,"/zdroje/kvety.png");
-        Vec krabica= new Vec ("krabica", true,"/zdroje/krabica.png");
-        Vec fotka=new Vec("fotka",true,"/zdroje/fotka.png");
-        Vec jablko=new Vec("jablko",true,"/zdroje/jablko.png");
-        
+        //Vloženie vecí do priestorov.
         lúka.vlozVec(truhla);
         lúka.vlozVec(strom);
         lúka.vlozVec(krabica);
@@ -97,7 +98,7 @@ public class HerniPlan implements Subject {
         truhla.vlozVec(fotka);
         truhla.vlozVec(jablko);
                 
-        aktualniProstor = školka;  // hra začíná v domečku       
+        aktualniProstor = školka;  // hra začíná v školke      
     }
     
     /**
@@ -119,23 +120,35 @@ public class HerniPlan implements Subject {
     public void setAktualniProstor(Prostor prostor) {
        aktualniProstor = prostor;
        notifyObservers();
-       
-    }
+       }
+    
     /**
-     * 
+     * Metoda rozhoduje, či hráč zvíťazil na základe podmienok.
      */
     public boolean vyhra(){
         return aktualniProstor.getNazev().equals(VITEZNY);
     }
     
     /**
-    *  Odkaz na batoh
+    *  Metoda vracia hodnotu batohu.
     * 
     */ 
     public Batoh getBatoh() {
         return batoh;
     }  
 
+    /**
+     * Metoda vrací celou aktuální hru.
+     * 
+     */
+    public Hra getHra(){
+        return this.hra;
+    }
+    
+    /**
+    *  Override pro registraci, odranení a notofikaci observeru.
+    * 
+    */ 
     @Override
     public void registerObserver(Observer observer) {
         listObserveru.add(observer);

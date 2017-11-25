@@ -6,14 +6,13 @@ import java.util.*;
 
 
 /*******************************************************************************
- * Instance třídy Batoh představují ...
+ * Instance třídy Batoh představují miesto, kde mozeme ukladat a prenášať veci.
  * Trieda Batoh tvori pre hráčov register jednotlivých vecí, ktoré počas hry 
  * sa rozhodli zobrať so sebou.
  *
  * @author    Simona Nepšinská
- *            pro školní rok 2015/2016 LS - cvičenie Štvrtok 11:00
- * @version BlueJ 3.1.0, JDK 8
- * Dátum poslednej zmeny: 22.5.2016 
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
+ * 
  */
 public class Batoh
 {
@@ -22,22 +21,34 @@ public class Batoh
      * Druhý príkaz určuje maximálnu hodnotu, ktorá môže byť v batohu.
      * 
      */
-    private Map<String, Vec>seznamVeci;
+    private Map<String, Vec>veci;
     private static final int MAXIMALNI_POCET=3;
    
     //== Konstruktory a tovární metody =============================================
 
     /***************************************************************************
-     *  Konstruktor ....
+     *  Konstruktor pre triedu Batoh
      */
+    
     public Batoh()
-    {seznamVeci=new HashMap<String, Vec>();
+    {veci=new HashMap<String, Vec>();
     }
+    
+    /**
+     * Vrací seznam věcí z batohu prostrednictvom mapy.
+     */
+    
+    public Map <String, Vec> vratBatoh()
+    {
+        return this.veci;
+    }
+    
+    
     /**
      * Táto metoda testuje, či je ešte miesto v batohu, ak áno vráti true a ak nie vráti false.
      */
     public boolean vejdeSeDoBatohu(){
-        if(seznamVeci.size()<MAXIMALNI_POCET){
+        if(veci.size()<MAXIMALNI_POCET){
             return true;
         }
         
@@ -47,21 +58,38 @@ public class Batoh
      * Metoda pridáva vec do batohu, s tým, že aj vypíše, či sa vložila, ak tam je miesto,
      * ak nie je, tak vypíše opak.
      */
-    public String pridajVec(Vec vec){
-        if(vejdeSeDoBatohu()){
-        seznamVeci.put(vec.getNazev(),vec);
-        return "Pridal si vec do batohu.";
+   // public String pridajVec(Vec vec){
+     //   if(vejdeSeDoBatohu()){
+    //    veci.put(vec.getNazev(),vec);
+     //   return "Pridal si vec do batohu.";
+     //   }
+   //     return "Bohužial, túto vec si nemôžeš vziať, lebo v batohu už nie je miesto.";
+   // }
+    
+    /**
+     * Metoda vklada vec do batohu, ak je v ňom miesto a je prenositeľná.
+     * @param vec
+     * @return true - ak je vlozena
+     *          false - ak sa nevlozila
+     */
+    public boolean vlozVec(Vec vec)
+    {
+        if(vejdeSeDoBatohu() && (vec.jePrenositelna())) {
+            veci.put(vec.getNazev(), vec);
+
+            return true;
         }
-        return "Bohužial, túto vec si nemôžeš vziať, lebo v batohu už nie je miesto.";
+        return false;
     }
+    
     /**
      * Metoda odeberá vec z batohu, ak tam je. Ak v batohu nie je vráti false.
      */
     public boolean odeberVec(String nazev){
        
-        if(seznamVeci.containsKey(nazev)){
+        if(veci.containsKey(nazev)){
         
-        seznamVeci.remove(nazev);
+        veci.remove(nazev);
         return true;
     
        }
@@ -70,10 +98,23 @@ public class Batoh
     }
     
     /**
+     * Metoda vyhodí vec z batohu.
+     * 
+     */   
+     public Vec vyhodVec(String nazev){
+        Vec vyhozenaVec = null;
+        if (veci.containsKey(nazev)) {
+            vyhozenaVec = veci.get(nazev);
+            veci.remove(nazev);
+        }
+        return vyhozenaVec;  
+    } 
+    
+    /**
      * Získame vec.
      */
     public Vec getVec(String nazevVeci){
-    return seznamVeci.get(nazevVeci);
+    return veci.get(nazevVeci);
     }   
     
     /**
@@ -81,7 +122,7 @@ public class Batoh
      */
     public String obsahBatohu(){
     String vypis="V batohu je: ";
-    for (String nazevVeci:seznamVeci.keySet()){
+    for (String nazevVeci:veci.keySet()){
      vypis+= nazevVeci + ".";
     }
     return vypis;
@@ -92,16 +133,12 @@ public class Batoh
     *  @param  predmet  Parametrem je věc, na kterou se ptáme.
     */   
     public boolean obsahujeVec(String nazevVeci) {
-        if (seznamVeci.containsKey(nazevVeci)) {
+        if (veci.containsKey(nazevVeci)) {
             return true;
         }
         return false;
     }
 
-    //== Nesoukromé metody (instancí i třídy) ======================================
-
-  
-
-    //== Soukromé metody (instancí i třídy) ========================================
+   
 
 }

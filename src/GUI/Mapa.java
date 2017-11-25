@@ -16,35 +16,42 @@ import main.Main;
 import utils.Observer;
 
 /**
- *
- * @author sneps
+ *  Trieda, ktorá zobrazuje mapu a presúvanie hráča po nej prostredníctvom tečky.
+ *  @author    Simona Nepšinská
+ *            pro školní rok 2017/2018 - cvičení UT 9:15
  */
 public class Mapa extends AnchorPane implements Observer{
 
     private IHra hra;
-    //private double posTop=0.0;
-    //private double posLeft=0.0;
     private Circle tecka;
     
+    /**
+    * Konstruktor pre triedu mapa.
+    * 
+    */
+       
     public Mapa(IHra hra) {
      this.hra = hra;   
      hra.getHerniPlan().registerObserver(this);
      init();
     }
-    
+    /**
+    * Metoda zobrazí obrázok - mapu k naší adventure a taky tecku, která ukazuje umístnění hráče.
+    * 
+    */
     public void init(){
-              
         ImageView obrazekImageView = new ImageView (new Image(Main.class.getResourceAsStream("/zdroje/mapa.png"),300,300,false,true));
         
         tecka = new Circle(10, Paint.valueOf("red"));
-        
-       // this.setTopAnchor(tecka,0.0);
-       // this.setLeftAnchor(tecka,0.0);
-        
         this.getChildren().addAll(obrazekImageView,tecka);
         update();
         
     }
+    
+    /**
+    * Metoda zabezpečuje reset hry, když se otevře nová hra.
+    * 
+    */
     
     public void newGame(IHra novaHra){
     hra.getHerniPlan().removeObserver(this);
@@ -53,6 +60,11 @@ public class Mapa extends AnchorPane implements Observer{
     update();
     }
     
+    
+    /**
+    * Metoda aktualizuje umístnění tečky.
+    * 
+    */
     @Override
     public void update() {
         this.setTopAnchor(tecka, hra.getHerniPlan().getAktualniProstor().getPosTop());
