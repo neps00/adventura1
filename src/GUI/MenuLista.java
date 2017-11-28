@@ -31,6 +31,7 @@ public class MenuLista extends MenuBar{
     
     private IHra hra;
     private Main main;
+    private Stage stage;
     
     /**
     * Konstruktor triedy menuLista.
@@ -40,6 +41,7 @@ public class MenuLista extends MenuBar{
     public MenuLista(IHra hra, Main main){
         this.hra = hra;
         this.main = main;
+        this.stage = main.getStage();
         init();
     }
     
@@ -80,19 +82,18 @@ public class MenuLista extends MenuBar{
 
             @Override
             public void handle(ActionEvent event) {
-                hra = new Hra();
-                main.getMapa().newGame(hra);
-                main.setHra(hra);
-                main.getCentralText().setText(hra.vratUvitani());
+          
+                main.start(stage);
             }
         });
         
-       oProgramu.setOnAction(new EventHandler<ActionEvent>() {
-
-    /**
+       /**
     * Zobrazí se okno s informacemi o programu.
     * 
-    */ 
+    */  
+       oProgramu.setOnAction(new EventHandler<ActionEvent>() {
+
+    
            
            @Override
             public void handle(ActionEvent event) {
